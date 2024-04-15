@@ -34,7 +34,7 @@
 
 /* Author: Matt Maly */
 
-#include "LTLPropositionalDecomposition.h"
+#include "ltl/LTLPropositionalDecomposition.h"
 #include "ompl/base/State.h"
 #include "ompl/control/planners/syclop/Decomposition.h"
 #include "ompl/control/planners/ltl/World.h"

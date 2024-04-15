@@ -13,8 +13,8 @@
 #include <ompl/control/SpaceInformation.h>
 #include <ompl/control/spaces/RealVectorControlSpace.h>
 #include <ompl/base/spaces/SE2StateSpace.h>
-#include "../Spaces/R2BeliefSpace.h"
-#include "../stl/STLProductGraph.h"
+#include "Spaces/R2BeliefSpace.h"
+#include "ltl/LTLProductGraph.h"
 
 #include <ompl/util/RandomNumbers.h>
 

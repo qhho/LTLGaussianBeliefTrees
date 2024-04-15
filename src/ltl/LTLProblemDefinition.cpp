@@ -35,8 +35,8 @@
 /* Author: Matt Maly, Qi Heng Ho */
 
 #include "ompl/control/PathControl.h"
-#include "LTLProblemDefinition.hpp"
-#include "LTLSpaceInformation.h"
+#include "ltl/LTLProblemDefinition.hpp"
+#include "ltl/LTLSpaceInformation.h"
 #include "ompl/base/ProblemDefinition.h"
 
 namespace ob = ompl::base;

@@ -1,9 +1,9 @@
 #include <utility>
 
-#include "LTLSpaceInformation.h"
+#include "ltl/LTLSpaceInformation.h"
 #include "ompl/control/SpaceInformation.h"
 #include "ompl/control/StatePropagator.h"
-#include "STLProductGraph.h"
+#include "ltl/LTLProductGraph.h"
 #include "ompl/base/StateValidityChecker.h"
 #include "ompl/base/spaces/DiscreteStateSpace.h"
 

@@ -38,7 +38,7 @@
 #define OMPL_CONTROL_PLANNERS_STL_PRODUCTGRAPH_
 
 #include "ompl/base/State.h"
-#include "STLAutomaton.hpp"
+#include "ltl/LTLAutomaton.hpp"
 #include "ompl/control/planners/ltl/PropositionalDecomposition.h"
 #include "ompl/util/ClassForward.h"
 #include <boost/graph/adjacency_list.hpp>

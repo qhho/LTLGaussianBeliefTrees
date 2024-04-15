@@ -39,9 +39,9 @@
 
 #include "ompl/base/spaces/DiscreteStateSpace.h"
 #include "ompl/base/spaces/RealVectorStateSpace.h"
-#include "../Spaces/R2BeliefSpace.h"
+#include "Spaces/R2BeliefSpace.h"
 #include "ompl/control/SpaceInformation.h"
-#include "STLProductGraph.h"
+#include "ltl/LTLProductGraph.h"
 
 namespace ompl
 {

@@ -34,7 +34,7 @@
 
 /* Author: Matt Maly, Keliang He */
 
-#include "LTLAutomaton.hpp"
+#include "ltl/LTLAutomaton.hpp"
 #include "ompl/control/planners/ltl/World.h"
 #if OMPL_HAVE_SPOT
 #include <spot/tl/parse.hh>

@@ -38,8 +38,8 @@
 #define OMPL_CONTROL_PLANNERS_STL_SSTGBT_
 
 #include "ompl/control/planners/PlannerIncludes.h"
-#include "../stl/STLProductGraph.h"
-#include "../stl/STLSpaceInformation.h"
+#include "ltl/LTLProductGraph.h"
+#include "ltl/LTLSpaceInformation.h"
 #include "ompl/datastructures/PDF.h"
 #include <unordered_map>
 #include <map>
@@ -48,7 +48,7 @@
 #include <unsupported/Eigen/MatrixFunctions>
 #include <eigen3/Eigen/Dense>
 
-#include "../StateSamplers/guided_state_sampler.hpp"
+#include "StateSamplers/guided_state_sampler.hpp"
 
 namespace ob = ompl::base;
 namespace oc = ompl::control;

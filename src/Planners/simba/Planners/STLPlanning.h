@@ -38,8 +38,8 @@
 #define OMPL_CONTROL_PLANNERS_STL_STLPLANNER_
 
 #include "ompl/control/planners/PlannerIncludes.h"
-#include "../stl/STLProductGraph.h"
-#include "../stl/STLSpaceInformation.h"
+#include "ltl/LTLProductGraph.h"
+#include "ltl/LTLSpaceInformation.h"
 #include "ompl/datastructures/PDF.h"
 #include <unordered_map>
 #include <map>

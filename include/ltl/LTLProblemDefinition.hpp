@@ -38,8 +38,8 @@
 #define OMPL_CONTROL_PLANNERS_LTL_STLPROBLEMDEFINITION_
 
 #include "ompl/base/ProblemDefinition.h"
-#include "STLProductGraph.h"
-#include "STLSpaceInformation.h"
+#include "ltl/LTLProductGraph.h"
+#include "ltl/LTLSpaceInformation.h"
 
 namespace ompl
 {

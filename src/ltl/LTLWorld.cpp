@@ -34,7 +34,7 @@
 
 /* Author: Matt Maly */
 
-#include "LTLWorld.h"
+#include "ltl/LTLWorld.h"
 #include "ompl/util/Console.h"
 #include "ompl/util/Hash.h"
 #include <unordered_map>

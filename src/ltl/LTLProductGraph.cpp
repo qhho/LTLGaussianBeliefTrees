@@ -34,9 +34,9 @@
 
 /* Author: Matt Maly */
 
-#include "STLProductGraph.h"
+#include "ltl/LTLProductGraph.h"
 #include "ompl/base/State.h"
-#include "STLAutomaton.hpp"
+#include "ltl/LTLAutomaton.hpp"
 #include "ompl/control/planners/ltl/PropositionalDecomposition.h"
 #include "ompl/control/planners/ltl/World.h"
 #include "ompl/util/ClassForward.h"

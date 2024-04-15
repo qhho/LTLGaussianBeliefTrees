@@ -1,4 +1,4 @@
-#include "LTLBeliefDecomposition3D.h"
+#include "ltl/LTLBeliefDecomposition3D.h"
 
 double square(double value){
     return value*value;

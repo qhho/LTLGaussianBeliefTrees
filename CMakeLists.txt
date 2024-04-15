@@ -16,6 +16,10 @@ find_package(ompl REQUIRED)
 find_package(Threads REQUIRED)
 find_package(yaml-cpp REQUIRED)
 
+add_library (triangle
+    src/extension/triangle.c
+)
+
 include_directories(include ${EIGEN3_INCLUDE_DIRS} ${BOOST_INCLUDE_DIRS} ${ompl_INCLUDE_DIRS}  ${CMAKE_SOURCE_DIR}/src)
 
 
@@ -33,24 +37,17 @@ add_library (gbt_lib
 )
 
 add_library (ltl_lib
-    src/Scenarios/2d_unicycle_regions.cpp
-    src/Scenarios/3d_unicycle_regions.cpp
     src/StateSamplers/guided_state_sampler.cpp
     src/extension/TriangularDecomposition.cpp
     src/extension/PropositionalTriangularDecomposition.cpp
     src/ltl/LTLAutomaton.cpp
-    src/stl/LTLProblemDefinition.cpp
-    src/stl/LTLProductGraph.cpp
-    src/stl/LTLSpaceInformation.cpp
+    src/ltl/LTLProblemDefinition.cpp
+    src/ltl/LTLProductGraph.cpp
+    src/ltl/LTLSpaceInformation.cpp
     src/Planners/simba/Planners/STLPlanning.cpp
     src/Planners/simba/Planners/STLRRT.cpp
-    src/Planners/simba/Planners/STLRRTStrict.cpp
-    src/Planners/simba/Planners/STLRRTUnicycle_final.cpp
-    src/Planners/simba/Planners/STLRRTUnicycle_final3D.cpp
-    src/stl/LTLMyDecomposition.cpp
-    src/stl/LTLBeliefDecomposition.cpp
-    src/stl/LTLBeliefDecomposition3D.cpp
-    src/Planners/GBT_SST.cpp
+    src/ltl/LTLMyDecomposition.cpp
+    src/Planners/simba/Planners/GBT_SST.cpp
 )
 
 target_link_libraries (gbt_lib

@@ -36,8 +36,8 @@
 
 #include "STLRRT.h"
 #include "ompl/control/planners/PlannerIncludes.h"
-#include "../stl/STLProductGraph.h"
-#include "../stl/STLProblemDefinition.hpp"
+#include "ltl/LTLProductGraph.h"
+#include "ltl/LTLProblemDefinition.hpp"
 #include "ompl/datastructures/PDF.h"
 #include "ompl/util/Console.h"
 #include <algorithm>
