@@ -5,13 +5,6 @@
 #include "gbt.hpp"
 #include <filesystem>
 
-#include <spot/tl/parse.hh>
-#include <spot/tl/print.hh>
-#include <spot/twaalgos/translate.hh>
-#include <spot/twa/bddprint.hh>
-#include <spot/misc/minato.hh>
-#include <spot/twa/formula2bdd.hh>
-
 namespace ob = ompl::base;
 namespace oc = ompl::control;
 namespace og = ompl::geometric;
@@ -279,10 +272,6 @@ void GaussianBeliefTrees::solve(ob::PlannerPtr planner)
 
 int main(int argc, char **argv)
 {   
-
-    spot::formula f = spot::parse_formula("! p0 U ((p2 & !p0))");
-
-
     std::filesystem::path currentPath = std::filesystem::current_path();
     std::filesystem::path scene_config = currentPath  / ".." / "configurations" / "scenes" / "scene5.yaml";
     std::filesystem::path system_config = currentPath  / ".." / "configurations" / "systems" / "system1.yaml";

@@ -34,7 +34,6 @@ void GuidedStateSampler::sampleUniform(ob::State *state) {
   // otherwise, sample around the lead path
 	if (bias_p_ < -10 || states_to_sample_.empty()) {
 		sampler_->sampleUniform(state);
-		//std::cout << "uniform -- SLP " << std::endl;
 	}
 	else {
 		if (bias_type_ == 1) {

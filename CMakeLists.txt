@@ -59,7 +59,21 @@ target_link_libraries (gbt_lib
     yaml-cpp
 )
 
+target_link_libraries (ltl_lib
+    ${Boost_LIBRARIES}
+    ${EIGEN3_LIBRARIES}
+    ${OMPL_LIBRARIES}
+    ${CMAKE_THREAD_LIBS_INIT}
+    libspot.so
+    yaml-cpp
+)
+
 target_include_directories(gbt_lib
+    PUBLIC
+    ${OMPL_INCLUDE_DIRS}
+)
+
+target_include_directories(ltl_lib
     PUBLIC
     ${OMPL_INCLUDE_DIRS}
 )

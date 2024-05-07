@@ -141,7 +141,6 @@ void ompl::control::SSBT::clear()
 
 void ompl::control::SSBT::freeMemory()
 {
-    // std::cout << 'freeing memory" <
     if (nn_)
     {
         std::vector<Motion *> motions;
