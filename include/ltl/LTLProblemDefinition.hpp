@@ -34,8 +34,8 @@
 
 /* Author: Matt Maly */
 
-#ifndef OMPL_CONTROL_PLANNERS_LTL_STLPROBLEMDEFINITION_
-#define OMPL_CONTROL_PLANNERS_LTL_STLPROBLEMDEFINITION_
+#ifndef OMPL_CONTROL_PLANNERS_LTL_LTLPROBLEMDEFINITION_
+#define OMPL_CONTROL_PLANNERS_LTL_LTLPROBLEMDEFINITION_
 
 #include "ompl/base/ProblemDefinition.h"
 #include "ltl/LTLProductGraph.h"
@@ -47,17 +47,17 @@ namespace ompl
     {
         /// @cond IGNORE
         /** \brief Forward declaration of ompl::control::LTLProblemDefinition */
-        OMPL_CLASS_FORWARD(STLProblemDefinition);
+        OMPL_CLASS_FORWARD(LTLProblemDefinition);
         /// @endcond
 
-        /** \class ompl::control::STLProblemDefinitionPtr
-            \brief A shared pointer wrapper for ompl::control::STLProblemDefinition */
-        class STLProblemDefinition : public base::ProblemDefinition
+        /** \class ompl::control::LTLProblemDefinitionPtr
+            \brief A shared pointer wrapper for ompl::control::LTLProblemDefinition */
+        class LTLProblemDefinition : public base::ProblemDefinition
         {
         public:
-            STLProblemDefinition(const control::STLSpaceInformationPtr &STLsi);
+            LTLProblemDefinition(const control::LTLSpaceInformationPtr &LTLsi);
 
-            ~STLProblemDefinition() override = default;
+            ~LTLProblemDefinition() override = default;
 
             void addLowerStartState(const base::State *s);
 
@@ -66,7 +66,7 @@ namespace ompl
         protected:
             void createGoal();
 
-            STLSpaceInformationPtr stlsi_;
+            LTLSpaceInformationPtr ltlsi_;
         };
     }
 }

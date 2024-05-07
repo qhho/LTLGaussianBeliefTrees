@@ -34,8 +34,8 @@
 
 /* Author: Matt Maly */
 
-#ifndef OMPL_CONTROL_PLANNERS_STL_WORLD_
-#define OMPL_CONTROL_PLANNERS_STL_WORLD_
+#ifndef OMPL_CONTROL_PLANNERS_LTL_WORLD_
+#define OMPL_CONTROL_PLANNERS_LTL_WORLD_
 
 #include <unordered_map>
 #include <string>
@@ -44,7 +44,7 @@ namespace ompl
 {
     namespace control
     {
-        class STLWorld;
+        class LTLWorld;
     }
 }
 
@@ -53,9 +53,9 @@ namespace ompl
 namespace std
 {
     template <>
-    struct hash<ompl::control::STLWorld>
+    struct hash<ompl::control::LTLWorld>
     {
-        size_t operator()(const ompl::control::STLWorld &w) const;
+        size_t operator()(const ompl::control::LTLWorld &w) const;
     };
 }
 //@endcond
@@ -68,11 +68,11 @@ namespace ompl
             A World can be partially restrictive, i.e., some propositions do not have to
             be assigned a value, in which case it can take on any value.
             Our notion of a World is similar to a set of truth assignments in propositional logic. */
-        class STLWorld
+        class LTLWorld
         {
         public:
             /** \brief Initializes a world with a given number of propositions. */
-            STLWorld(unsigned int numProps);
+            LTLWorld(unsigned int numProps);
 
             /** \brief Returns the boolean value of a given proposition in this World.
                 Reports an error if the proposition has not set in this World. */
@@ -101,12 +101,12 @@ namespace ompl
 
             /** \brief Returns whether this World is equivalent to a given World,
                 by comparing their truth assignment maps. */
-            bool operator==(const STLWorld &w) const;
+            bool operator==(const LTLWorld &w) const;
 
             /** \brief Clears this world's truth assignment. */
             void clear();
 
-            friend struct std::hash<STLWorld>;
+            friend struct std::hash<LTLWorld>;
 
         protected:
             unsigned int numProps_;

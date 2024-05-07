@@ -68,7 +68,7 @@ Iter select_randomly(Iter start, Iter end) {
     return select_randomly(start, end, gen);
 }
 
-ompl::control::STLRRT::STLRRT(const STLSpaceInformationPtr &stlsi, ProductGraphPtr a, double exploreTime)
+ompl::control::STLRRT::STLRRT(const LTLSpaceInformationPtr &stlsi, ProductGraphPtr a, double exploreTime)
   : ompl::base::Planner(stlsi, "STLRRT")
   , stlsi_(stlsi.get())
   , abstraction_(std::move(a))

@@ -17,10 +17,10 @@ namespace
     static ob::StateSpacePtr extendStateSpace(const ob::StateSpacePtr &lowSpace, const oc::ProductGraphPtr &prod);
 }
 
-oc::STLSpaceInformation::STLSpaceInformation(const oc::SpaceInformationPtr &si, const oc::ProductGraphPtr &prod)
+oc::LTLSpaceInformation::LTLSpaceInformation(const oc::SpaceInformationPtr &si, const oc::ProductGraphPtr &prod)
   : oc::SpaceInformation(extendStateSpace(si->getStateSpace(), prod), si->getControlSpace()), prod_(prod), lowSpace_(si)
 {
-    //\todo: Technically there's a bug here, as we've assigning STLSpaceInformation's
+    //\todo: Technically there's a bug here, as we've assigning LTLSpaceInformation's
     //      control space to be si->getControlSpace(), which internally holds a pointer
     //      to si->getStateSpace() instead of this->getStateSpace(). In practice, this
     //      is fine for now, since control space never actually uses its internal state
@@ -29,12 +29,12 @@ oc::STLSpaceInformation::STLSpaceInformation(const oc::SpaceInformationPtr &si, 
     extendValidityChecker(si);
 }
 
-void oc::STLSpaceInformation::setup()
+void oc::LTLSpaceInformation::setup()
 {
     // Set up the low space, then match our parameters to it.
     if (!lowSpace_->isSetup())
         lowSpace_->setup();
-    // We never actually use the below parameters in STLSpaceInformation while planning.
+    // We never actually use the below parameters in LTLSpaceInformation while planning.
     // All integrating is done in lowSpace. However, we will need these parameters when
     // printing the path - PathControl::print() will convert path steps using these
     // parameters.
@@ -43,7 +43,7 @@ void oc::STLSpaceInformation::setup()
     setup_ = true;
 }
 
-void oc::STLSpaceInformation::getFullState(const ob::State *low, ob::State *full)
+void oc::LTLSpaceInformation::getFullState(const ob::State *low, ob::State *full)
 {
     const ProductGraph::State *high = prod_->getState(low);
     ob::CompoundState &cs = *full->as<ob::CompoundState>();
@@ -54,27 +54,27 @@ void oc::STLSpaceInformation::getFullState(const ob::State *low, ob::State *full
     cs[SAFE]->as<DiscreteState>()->value = high->getSafeState();
 }
 
-ob::State *oc::STLSpaceInformation::getLowLevelState(ob::State *s)
+ob::State *oc::LTLSpaceInformation::getLowLevelState(ob::State *s)
 {
     return const_cast<ob::State *>(getLowLevelState(const_cast<const ob::State *>(s)));
 }
 
-const ob::State *oc::STLSpaceInformation::getLowLevelState(const ob::State *s)
+const ob::State *oc::LTLSpaceInformation::getLowLevelState(const ob::State *s)
 {
     return s->as<ob::CompoundState>()->operator[](LOW_LEVEL);
 }
 
-ob::State *oc::STLSpaceInformation::getTime(ob::State *s)
+ob::State *oc::LTLSpaceInformation::getTime(ob::State *s)
 {
     return const_cast<ob::State *>(getTime(const_cast<const ob::State *>(s)));
 }
 
-const ob::State *oc::STLSpaceInformation::getTime(const ob::State *s)
+const ob::State *oc::LTLSpaceInformation::getTime(const ob::State *s)
 {
     return s->as<ob::CompoundState>()->operator[](TIME);
 }
 
-oc::ProductGraph::State *oc::STLSpaceInformation::getProdGraphState(const ob::State *s) const
+oc::ProductGraph::State *oc::LTLSpaceInformation::getProdGraphState(const ob::State *s) const
 {
     const ob::CompoundState &cs = *s->as<ob::CompoundState>();
     using DiscreteState = ob::DiscreteStateSpace::StateType;
@@ -82,32 +82,29 @@ oc::ProductGraph::State *oc::STLSpaceInformation::getProdGraphState(const ob::St
                            cs[SAFE]->as<DiscreteState>()->value);
 }
 
-void oc::STLSpaceInformation::extendPropagator(const oc::SpaceInformationPtr &oldsi) //need to add determinizing of states
+void oc::LTLSpaceInformation::extendPropagator(const oc::SpaceInformationPtr &oldsi) //need to add determinizing of states
 {
-    class STLStatePropagator : public oc::StatePropagator
+    class LTLStatePropagator : public oc::StatePropagator
     {
     public:
-        STLStatePropagator(oc::STLSpaceInformation *ltlsi, oc::ProductGraphPtr prod, oc::StatePropagatorPtr lowProp)
-          : oc::StatePropagator(ltlsi), prod_(std::move(prod)), lowProp_(std::move(lowProp)), stlsi_(ltlsi)
+        LTLStatePropagator(oc::LTLSpaceInformation *ltlsi, oc::ProductGraphPtr prod, oc::StatePropagatorPtr lowProp)
+          : oc::StatePropagator(ltlsi), prod_(std::move(prod)), lowProp_(std::move(lowProp)), ltlsi_(ltlsi)
         {
         }
-        ~STLStatePropagator() override = default;
+        ~LTLStatePropagator() override = default;
 
         void propagate(const ob::State *state, const oc::Control *control, const double duration,
                        ob::State *result) const override
         {
-            const ob::State *lowLevelPrev = stlsi_->getLowLevelState(state);
-            ob::State *lowLevelResult = stlsi_->getLowLevelState(result);
+            const ob::State *lowLevelPrev = ltlsi_->getLowLevelState(state);
+            ob::State *lowLevelResult = ltlsi_->getLowLevelState(result);
             lowProp_->propagate(lowLevelPrev, control, duration, lowLevelResult);
 
-            const oc::ProductGraph::State *prevHigh = stlsi_->getProdGraphState(state);
+            const oc::ProductGraph::State *prevHigh = ltlsi_->getProdGraphState(state);
             std::vector<oc::ProductGraph::State*> nextHighs = prod_->getStates(prevHigh, lowLevelResult);
-            result->as<ob::CompoundState>()->as<ob::RealVectorStateSpace::StateType>(TIME)->values[0] = 
-            stlsi_->getTime(state)->as<ob::RealVectorStateSpace::StateType>()->values[0] + duration;
-            double currentTime = result->as<ob::CompoundState>()->as<ob::RealVectorStateSpace::StateType>(TIME)->values[0];
             const oc::ProductGraph::State *nextHigh = NULL;
             if (nextHighs.size() == 0){
-                std::cout << "DOOMED";
+                std::cout << "ERROR";
             }
             else if (nextHighs.size() == 1){
                 nextHigh = nextHighs[0];
@@ -128,41 +125,38 @@ void oc::STLSpaceInformation::extendPropagator(const oc::SpaceInformationPtr &ol
     private:
         const oc::ProductGraphPtr prod_;
         const oc::StatePropagatorPtr lowProp_;
-        oc::STLSpaceInformation *stlsi_;
+        oc::LTLSpaceInformation *ltlsi_;
     };
 
-    // Some compilers have trouble with STLStatePropagator being hidden in this function,
+    // Some compilers have trouble with LTLStatePropagator being hidden in this function,
     // and so we explicitly cast it to its base type.
-    setStatePropagator(std::make_shared<STLStatePropagator>(this, prod_, oldsi->getStatePropagator()));
+    setStatePropagator(std::make_shared<LTLStatePropagator>(this, prod_, oldsi->getStatePropagator()));
 }
 
-void oc::STLSpaceInformation::extendValidityChecker(const oc::SpaceInformationPtr &oldsi)
+void oc::LTLSpaceInformation::extendValidityChecker(const oc::SpaceInformationPtr &oldsi)
 {
-    class STLStateValidityChecker : public ob::StateValidityChecker
+    class LTLStateValidityChecker : public ob::StateValidityChecker
     {
     public:
-        STLStateValidityChecker(oc::STLSpaceInformation *ltlsi, oc::ProductGraphPtr prod,
+        LTLStateValidityChecker(oc::LTLSpaceInformation *ltlsi, oc::ProductGraphPtr prod,
                                 ob::StateValidityCheckerPtr lowChecker)
-          : ob::StateValidityChecker(ltlsi), prod_(std::move(prod)), lowChecker_(std::move(lowChecker)), stlsi_(ltlsi)
+          : ob::StateValidityChecker(ltlsi), prod_(std::move(prod)), lowChecker_(std::move(lowChecker)), ltlsi_(ltlsi)
         {
         }
-        ~STLStateValidityChecker() override = default;
+        ~LTLStateValidityChecker() override = default;
         bool isValid(const ob::State *s) const override
         {            
-            // double lowbound = 0.0;
-            // double upbound = 100.0;
-            // double currentTime = stlsi_->getTime(s)->as<ob::RealVectorStateSpace::StateType>()->values[0];
-            return stlsi_->getProdGraphState(s)->isValid() && lowChecker_->isValid(stlsi_->getLowLevelState(s));
+            return ltlsi_->getProdGraphState(s)->isValid() && lowChecker_->isValid(ltlsi_->getLowLevelState(s));
         }
     private:
         const oc::ProductGraphPtr prod_;
         const ob::StateValidityCheckerPtr lowChecker_;
-        oc::STLSpaceInformation *stlsi_;
+        oc::LTLSpaceInformation *ltlsi_;
     };
 
-    // Some compilers have trouble with STLStateValidityChecker being hidden in this function,
+    // Some compilers have trouble with LTLStateValidityChecker being hidden in this function,
     // and so we explicitly cast it to its base type.
-    setStateValidityChecker(std::make_shared<STLStateValidityChecker>(this, prod_, oldsi->getStateValidityChecker()));
+    setStateValidityChecker(std::make_shared<LTLStateValidityChecker>(this, prod_, oldsi->getStateValidityChecker()));
 }
 
 namespace
@@ -179,10 +173,7 @@ namespace
         compound->addSubspace(regionSpace, 0.);
         compound->addSubspace(cosafeSpace, 0.);
         compound->addSubspace(safeSpace, 0.);
-        compound->addSubspace(ob::StateSpacePtr(new ob::RealVectorStateSpace(1)), 0.0);
         compound->lock();
-
-        compound->as<ob::RealVectorStateSpace>(4)->setBounds(0.0, 1000.0);
 
         return compound;
     }

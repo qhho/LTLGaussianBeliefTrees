@@ -66,7 +66,7 @@ namespace ompl
         class SSTScoutPlanner : public base::Planner
             {
                 public:
-                    SSTScoutPlanner(const STLSpaceInformationPtr &si);
+                    SSTScoutPlanner(const LTLSpaceInformationPtr &si);
 
                     /** \brief Clears all memory belonging to this GBTSSTUnicycle .*/
                     ~SSTScoutPlanner() override;
@@ -86,7 +86,7 @@ namespace ompl
             /** \brief Create an GBTSSTUnicycle with a given space and product graph.
                 Accepts an optional third parameter to control how much time is spent
                 promoting low-level tree exploration along a given high-level lead. */
-            GBTSSTUnicycle(const STLSpaceInformationPtr &si, const STLSpaceInformationPtr &scout_si, ProductGraphPtr a, ProductGraphPtr b, double exploreTime = 1.5, double scout_exploreTime = 0.25);
+            GBTSSTUnicycle(const LTLSpaceInformationPtr &si, const LTLSpaceInformationPtr &scout_si, ProductGraphPtr a, ProductGraphPtr b, double exploreTime = 1.5, double scout_exploreTime = 0.25);
 
             /** \brief Clears all memory belonging to this GBTSSTUnicycle .*/
             ~GBTSSTUnicycle() override;
@@ -373,9 +373,9 @@ namespace ompl
             ControlSamplerPtr scout_controlSampler_;
 
             /** \brief Handle to the control::SpaceInformation object */
-            const STLSpaceInformation *stlsi_;
+            const LTLSpaceInformation *stlsi_;
 
-            const STLSpaceInformation *scout_stlsi_;
+            const LTLSpaceInformation *scout_stlsi_;
 
             /** \brief The high level abstaction used to grow the tree structure */
             ProductGraphPtr abstraction_;

@@ -34,8 +34,8 @@
 
 /* Author: Matt Maly */
 
-#ifndef OMPL_CONTROL_PLANNERS_STL_PROPOSITIONALDECOMPOSITION_
-#define OMPL_CONTROL_PLANNERS_STL_PROPOSITIONALDECOMPOSITION_
+#ifndef OMPL_CONTROL_PLANNERS_LTL_PROPOSITIONALDECOMPOSITION_
+#define OMPL_CONTROL_PLANNERS_LTL_PROPOSITIONALDECOMPOSITION_
 
 #include "ompl/base/State.h"
 #include "ompl/control/planners/syclop/Decomposition.h"
@@ -51,7 +51,7 @@ namespace ompl
     {
         /// @cond IGNORE
         /** \brief Forward declaration of ompl::control::PropositionalDecomposition */
-        OMPL_CLASS_FORWARD(STLPropositionalDecomposition);
+        OMPL_CLASS_FORWARD(LTLPropositionalDecomposition);
         /// @endcond
 
         /** \class ompl::control::PropositionalDecompositionPtr
@@ -60,15 +60,15 @@ namespace ompl
         /** \brief A propositional decomposition wraps a given Decomposition
             with a region-to-proposition assignment operator.
             Each region in the decomposition has a corresponding World. */
-        class STLPropositionalDecomposition : public Decomposition
+        class LTLPropositionalDecomposition : public Decomposition
         {
         public:
             /** \brief Creates a propositional decomposition wrapped around a given decomposition
                 with a given number of propositions. */
-            STLPropositionalDecomposition(const DecompositionPtr &decomp);
+            LTLPropositionalDecomposition(const DecompositionPtr &decomp);
 
             /** \brief Clears all memory belonging to this propositional decomposition. */
-            ~STLPropositionalDecomposition() override;
+            ~LTLPropositionalDecomposition() override;
 
             /** \brief Returns the World corresponding to a given region. */
             virtual World worldAtRegion(int rid) = 0;

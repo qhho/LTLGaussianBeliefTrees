@@ -34,8 +34,8 @@
 
 /* Author: Matt Maly */
 
-#ifndef OMPL_CONTROL_PLANNERS_STL_PRODUCTGRAPH_
-#define OMPL_CONTROL_PLANNERS_STL_PRODUCTGRAPH_
+#ifndef OMPL_CONTROL_PLANNERS_LTL_PRODUCTGRAPH_
+#define OMPL_CONTROL_PLANNERS_LTL_PRODUCTGRAPH_
 
 #include "ompl/base/State.h"
 #include "ltl/LTLAutomaton.hpp"

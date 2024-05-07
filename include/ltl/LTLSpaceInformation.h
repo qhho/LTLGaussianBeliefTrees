@@ -34,8 +34,8 @@
 
 /* Author: Matt Maly */
 
-#ifndef OMPL_CONTROL_PLANNERS_STL_STLSPACEINFORMATION_
-#define OMPL_CONTROL_PLANNERS_STL_STLSPACEINFORMATION_
+#ifndef OMPL_CONTROL_PLANNERS_LTL_LTLSPACEINFORMATION_
+#define OMPL_CONTROL_PLANNERS_LTL_LTLSPACEINFORMATION_
 
 #include "ompl/base/spaces/DiscreteStateSpace.h"
 #include "ompl/base/spaces/RealVectorStateSpace.h"
@@ -48,18 +48,18 @@ namespace ompl
     namespace control
     {
         /// @cond IGNORE
-        /** \brief Forward declaration of ompl::control::STLSpaceInformation */
-        OMPL_CLASS_FORWARD(STLSpaceInformation);
+        /** \brief Forward declaration of ompl::control::LTLSpaceInformation */
+        OMPL_CLASS_FORWARD(LTLSpaceInformation);
         /// @endcond
 
-        /** \class ompl::control::STLSpaceInformationPtr
-            \brief A shared pointer wrapper for ompl::control::STLSpaceInformation */
-        class STLSpaceInformation : public SpaceInformation
+        /** \class ompl::control::LTLSpaceInformationPtr
+            \brief A shared pointer wrapper for ompl::control::LTLSpaceInformation */
+        class LTLSpaceInformation : public SpaceInformation
         {
         public:
-            STLSpaceInformation(const SpaceInformationPtr &si, const ProductGraphPtr &prod);
+            LTLSpaceInformation(const SpaceInformationPtr &si, const ProductGraphPtr &prod);
 
-            ~STLSpaceInformation() override = default;
+            ~LTLSpaceInformation() override = default;
 
             void setup() override;
 

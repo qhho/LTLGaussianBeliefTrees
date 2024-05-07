@@ -34,8 +34,8 @@
 
 /* Author: Matt Maly, Keliang He */
 
-#ifndef OMPL_CONTROL_PLANNERS_STL_AUTOMATON_
-#define OMPL_CONTROL_PLANNERS_STL_AUTOMATON_
+#ifndef OMPL_CONTROL_PLANNERS_LTL_AUTOMATON_
+#define OMPL_CONTROL_PLANNERS_LTL_AUTOMATON_
 
 #include "ompl/control/planners/ltl/World.h"
 #include "ompl/util/ClassForward.h"

@@ -8,17 +8,12 @@ ompl::control::BeliefDecomposition3D::BeliefDecomposition3D(int dim, const base:
 
     discretization_level_ = discretization_level;
     setNumRegions(5);
-
-    // si_ = si;
 	p_threshold_ = p_safe;
 
-	// OMPL_INFORM("scene is %s", scene_id.c_str());
-	// if (scene_id == "2d_underwater_2regions") {
     Scene3D scene = Scene3D();
     n_regions_ = scene.n_obstacles_;
     A_list_.resize(n_regions_); A_list_ = scene.A_list_;
     B_list_.resize(n_regions_); B_list_ = scene.B_list_;
-	// }
 
 	erf_inv_result_ = boost::math::erf_inv(1 - 2 * p_threshold_/n_regions_);
 }
@@ -95,10 +90,6 @@ int ompl::control::BeliefDecomposition3D::locateRegion(const ompl::base::State *
     double x = coord[0];
     double y = coord[1];
     double z = coord[2];
-    // if (x > 100.0 || x < 0.0 || y < 0.0 || y > 100.0 || z < 0.0 || z > 20.0){
-    //     return false;
-    // }
-
     //=========================================================================
     // Extract the component of the state and cast it to what we expect
     //=========================================================================
@@ -113,19 +104,6 @@ int ompl::control::BeliefDecomposition3D::locateRegion(const ompl::base::State *
     //=========================================================================
     // Probabilistic region checker
     //=========================================================================
-    // for each obstacle, if in region, 
-
-    // for (int i =0 ; i < 6; ++i){
-    //     std::cout << coord[i] << " ";
-    // }
-    // std::cout << std::endl;
-    
-    // if (coord[2] > 10.0){
-    //     return 5;
-    // }
-    // else{
-    //     std::cout << coord[2] << std::endl;
-    // }
 
     for (int o = 0; o < n_regions_; o++) {
         if (HyperplaneCCValidityChecker(A_list_.at(o), B_list_.at(o), x, y, z, PX)) {
@@ -136,11 +114,6 @@ int ompl::control::BeliefDecomposition3D::locateRegion(const ompl::base::State *
 
     
     return 0;
-    // valid = true;
-
-    // return valid;
-
-    // return coordToRegion(coord, discretization_level_);
 }
 
 bool ompl::control::BeliefDecomposition3D::HyperplaneCCValidityChecker(const Eigen::MatrixXf &A, const Eigen::MatrixXf &B, const double &x_pose, const double &y_pose, const double &z_pose, const Eigen::MatrixXf &PX) const {

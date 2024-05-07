@@ -57,7 +57,7 @@
 #include "ompl/base/objectives/PathLengthOptimizationObjective.h"
 
 
-ompl::control::GBTSSTUnicycle::GBTSSTUnicycle(const STLSpaceInformationPtr &stlsi, const STLSpaceInformationPtr &scout_stlsi, ProductGraphPtr a, ProductGraphPtr b, double exploreTime, double scout_exploreTime)
+ompl::control::GBTSSTUnicycle::GBTSSTUnicycle(const LTLSpaceInformationPtr &stlsi, const LTLSpaceInformationPtr &scout_stlsi, ProductGraphPtr a, ProductGraphPtr b, double exploreTime, double scout_exploreTime)
   : ompl::base::Planner(stlsi, "GBTSSTUnicycle")
   , scout_stlsi_(scout_stlsi.get())
   , stlsi_(stlsi.get())
@@ -68,8 +68,6 @@ ompl::control::GBTSSTUnicycle::GBTSSTUnicycle(const STLSpaceInformationPtr &stls
   , scoutplanner(SSTScoutPlanner(scout_stlsi))
 {
     specs_.approximateSolutions = true;
-
-    // Planner::declareParam<double>("goal_bias", this, &GBTSSTUnicycle::setGoalBias, &GBTSSTUnicycle::getGoalBias, "0.:.05:1.");
     Planner::declareParam<bool>("use_scout", this, &GBTSSTUnicycle::setUseScout, &GBTSSTUnicycle::getUseScout);
     Planner::declareParam<double>("pruning_radius", this, &GBTSSTUnicycle::setPruningRadius, &GBTSSTUnicycle::getPruningRadius, "0.:.1:100");
     // // Planner::declareParam<double>("traj_bias", this, &GBTSSTUnicycle::setTrajBias, &GBTSSTUnicycle::setTrajBias, "0.:.05:1.");
@@ -113,7 +111,7 @@ void ompl::control::GBTSSTUnicycle::clear()
     clearMotions();
 }
 
-ompl::control::SSTScoutPlanner::SSTScoutPlanner(const STLSpaceInformationPtr &stlsi)
+ompl::control::SSTScoutPlanner::SSTScoutPlanner(const LTLSpaceInformationPtr &stlsi)
   : ompl::base::Planner(stlsi, "STLSSTScoutPlanner")
 {
     std::cout << "completed stl scout planner" << std::endl;

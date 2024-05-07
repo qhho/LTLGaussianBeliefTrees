@@ -61,7 +61,7 @@ namespace ompl
             /** \brief Create an STLPlanner with a given space and product graph.
                 Accepts an optional third parameter to control how much time is spent
                 promoting low-level tree exploration along a given high-level lead. */
-            STLPlanner(const STLSpaceInformationPtr &si, ProductGraphPtr a, double exploreTime = 0.5);
+            STLPlanner(const LTLSpaceInformationPtr &si, ProductGraphPtr a, double exploreTime = 0.5);
 
             /** \brief Clears all memory belonging to this STLPlanner .*/
             ~STLPlanner() override;
@@ -177,7 +177,7 @@ namespace ompl
             ControlSamplerPtr controlSampler_;
 
             /** \brief Handle to the control::SpaceInformation object */
-            const STLSpaceInformation *stlsi_;
+            const LTLSpaceInformation *stlsi_;
 
             /** \brief The high level abstaction used to grow the tree structure */
             ProductGraphPtr abstraction_;

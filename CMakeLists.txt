@@ -44,9 +44,9 @@ add_library (ltl_lib
     src/ltl/LTLProblemDefinition.cpp
     src/ltl/LTLProductGraph.cpp
     src/ltl/LTLSpaceInformation.cpp
+    src/ltl/LTLBeliefDecomposition.cpp
     src/Planners/simba/Planners/STLPlanning.cpp
     src/Planners/simba/Planners/STLRRT.cpp
-    src/ltl/LTLMyDecomposition.cpp
     src/Planners/simba/Planners/GBT_SST.cpp
 )
 
@@ -55,6 +55,7 @@ target_link_libraries (gbt_lib
     ${EIGEN3_LIBRARIES}
     ${OMPL_LIBRARIES}
     ${CMAKE_THREAD_LIBS_INIT}
+    libspot.so
     yaml-cpp
 )
 

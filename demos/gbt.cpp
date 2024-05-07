@@ -1,13 +1,16 @@
-/*
-
- */
-
 #include <iostream>
 #include <vector>
 #include <boost/bind.hpp>
 #include <fstream>
 #include "gbt.hpp"
 #include <filesystem>
+
+#include <spot/tl/parse.hh>
+#include <spot/tl/print.hh>
+#include <spot/twaalgos/translate.hh>
+#include <spot/twa/bddprint.hh>
+#include <spot/misc/minato.hh>
+#include <spot/twa/formula2bdd.hh>
 
 namespace ob = ompl::base;
 namespace oc = ompl::control;
@@ -50,7 +53,6 @@ GaussianBeliefTrees::GaussianBeliefTrees(const std::string& scene_config, const 
     scene_ = Scene(scene_config);
     system_ = System(system_config);
 
-    // TODO: Should this be hardcoded to a 2x2? Will need to change when we make R^n.
     initial_covariance_ = 1.0*Eigen::MatrixXd::Identity(2, 2);
 }
 
@@ -277,6 +279,10 @@ void GaussianBeliefTrees::solve(ob::PlannerPtr planner)
 
 int main(int argc, char **argv)
 {   
+
+    spot::formula f = spot::parse_formula("! p0 U ((p2 & !p0))");
+
+
     std::filesystem::path currentPath = std::filesystem::current_path();
     std::filesystem::path scene_config = currentPath  / ".." / "configurations" / "scenes" / "scene5.yaml";
     std::filesystem::path system_config = currentPath  / ".." / "configurations" / "systems" / "system1.yaml";

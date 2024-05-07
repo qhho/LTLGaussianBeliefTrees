@@ -49,7 +49,7 @@
 
 #include <cstdio>
 
-ompl::control::STLPlanner::STLPlanner(const STLSpaceInformationPtr &stlsi, ProductGraphPtr a, double exploreTime)
+ompl::control::STLPlanner::STLPlanner(const LTLSpaceInformationPtr &stlsi, ProductGraphPtr a, double exploreTime)
   : ompl::base::Planner(stlsi, "STLPlanner")
   , stlsi_(stlsi.get())
   , abstraction_(std::move(a))
@@ -90,11 +90,6 @@ ompl::base::PlannerStatus ompl::control::STLPlanner::solve(const ompl::base::Pla
     si_->copyState(startMotion->state, start);
     stlsi_->nullControl(startMotion->control);
     startMotion->abstractState = prodStart_;
-
-    // std::cout << startMotion->state->as<R2BeliefSpace::StateType>()->getSigma() << std::endl;
-    // std::cout << startMotion->state->as<R2BeliefSpace::StateType>()->getLambda() << std::endl;
-
-    // startMotion->state->as<R2BeliefSpace::StateType>()->setSigma(10.0);
 
     motions_.push_back(startMotion);
     abstractInfo_[prodStart_].addMotion(startMotion);

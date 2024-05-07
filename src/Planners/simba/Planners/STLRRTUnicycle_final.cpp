@@ -545,18 +545,8 @@ ompl::base::PlannerStatus ompl::control::CosafeSTLRRTUnicycle::solve(const ompl:
             }
         }
         else{
-            
-            // const std::vector<ProductGraph::State *> lead_uni =
-            //     abstraction_->computeLead(prodStart_, [this](ProductGraph::State *a, ProductGraph::State *b)
-            //                             {
-            //                                 return abstractEdgeWeight(a, b);
-            //                             });
                 buildAvail(lead);
 
-            // for (auto l : lead){
-            //     std::cout << l->getCosafeState() << " " << l->getDecompRegion() << ", " ;
-            //     }
-            //     std::cout << std::endl;
                 solved = explore(lead, scout_lead_true, soln, exploreTime_);
         }
     }
@@ -627,8 +617,6 @@ void ompl::control::CosafeSTLRRTUnicycle::CosafeStateInfo::addMotion(Motion *m)
 double ompl::control::CosafeSTLRRTUnicycle::updateWeightScout(int cs)
 {
     CosafeStateInfo &info = scout_abstractInfo_[cs];
-    /* \todo weight should include freeVolume, for cases in which decomposition
-       does not respect obstacles. */
     info.weight = ((info.motions.size() + 1) * info.volume) / (info.autWeight * (info.numSel + 1) * (info.numSel + 1));
     return info.weight;
 }
@@ -825,77 +813,7 @@ bool ompl::control::CosafeSTLRRTUnicycle::scout(const std::vector<int > lead, Mo
     
     return solved;
 }
-/*
-bool ompl::control::CosafeSTLRRTUnicycle::explore(const std::vector<ProductGraph::State *> &lead, Motion *&scout_path, Motion *&soln, double duration)
-{
-    bool solved = false;
-    base::PlannerTerminationCondition ptc = base::timedPlannerTerminationCondition(duration);
-    base::GoalPtr goal = pdef_->getGoal();
 
-    // base::Goal *goal_is = pdef_->getGoal().get();
-    // auto *goal_s = dynamic_cast<base::GoalSampleableRegion *>(goal_is);
-
-    //TODO: check how to project onto the same product graph
-    auto *rmotion = new Motion(stlsi_);
-    base::State *rstate = rmotion->state;
-    while (!ptc() && !solved)
-    {
-        Motion *v;
-        sampler_->sampleUniform(rstate);
-        if (rng_.uniform01() < 0.2){ //sampling_bias_;
-            rstate->as<CompoundState>()->operator[](0)->as<CompoundStateSpace::StateType>()->as<R2BeliefSpace::StateType>(0)->setSigma(0.5);
-        }
-        else{
-            // double val = rng_.uniform01();
-            rstate->as<CompoundState>()->operator[](0)->as<CompoundStateSpace::StateType>()->as<R2BeliefSpace::StateType>(0)->setSigmaX(2*rng_.uniform01());
-            rstate->as<CompoundState>()->operator[](0)->as<CompoundStateSpace::StateType>()->as<R2BeliefSpace::StateType>(0)->setSigmaY(2*rng_.uniform01());
-        }
-
-        // if (rng_.uniform01() < 0.05){
-        //     rstate->as<CompoundState>()->operator[](0)->as<CompoundStateSpace::StateType>()->as<R2BeliefSpace::StateType>(0)->setX(95.0);
-        //     rstate->as<CompoundState>()->operator[](0)->as<CompoundStateSpace::StateType>()->as<R2BeliefSpace::StateType>(0)->setY(95.0);
-        // }
-        v = nn_->nearest(rmotion);
-        Control *rctrl = stlsi_->allocControl();
-        // controlSampler_->sampleNext(rctrl, v->control, v->state);
-        // unsigned int cd =
-        //     controlSampler_->sampleStepCount(stlsi_->getMinControlDuration(), stlsi_->getMaxControlDuration());
-        base::State *newState = si_->allocState();
-        unsigned int cd = controlSampler_->sampleTo(rctrl, v->control, v->state, newState);
-        
-        // cd = stlsi_->propagateWhileValid(v->state, rctrl, cd, newState);
-        if (cd < stlsi_->getMinControlDuration())
-        {
-            si_->freeState(newState);
-            stlsi_->freeControl(rctrl);
-            continue;
-        }
-        auto *m = new Motion();
-        m->state = newState;
-        m->control = rctrl;
-        m->steps = cd;
-        m->parent = v;
-        // Since the state was determined to be valid by SpaceInformation, we don't need to check automaton states
-        m->abstractState = stlsi_->getProdGraphState(m->state);
-        motions_.push_back(m);
-        nn_->add(m);
-        solved = goal->isSatisfied(m->state);
-        if (solved)
-        {
-            soln = m;
-            break;
-        }
-    }
-
-    if (rmotion->state)
-            si_->freeState(rmotion->state);
-        if (rmotion->control)
-            stlsi_->freeControl(rmotion->control);
-        delete rmotion;
-    
-    return solved;
-}
-*/
 bool ompl::control::CosafeSTLRRTUnicycle::explore(const std::vector<ProductGraph::State *> &lead, bool scout_lead_true, Motion *&soln, double duration)
 {
     bool solved = false;
@@ -931,12 +849,6 @@ bool ompl::control::CosafeSTLRRTUnicycle::explore(const std::vector<ProductGraph
             rstate->as<CompoundState>()->operator[](0)->as<CompoundStateSpace::StateType>()->as<R2BeliefSpace::StateType>(0)->setSigmaX(10.0*rng_.uniform01());
             rstate->as<CompoundState>()->operator[](0)->as<CompoundStateSpace::StateType>()->as<R2BeliefSpace::StateType>(0)->setSigmaY(10.0*rng_.uniform01());
         }
-
-        // if (rng_.uniform01() < 0.05){
-        //     rstate->as<CompoundState>()->operator[](0)->as<CompoundStateSpace::StateType>()->as<R2BeliefSpace::StateType>(0)->setX(95.0);
-        //     rstate->as<CompoundState>()->operator[](0)->as<CompoundStateSpace::StateType>()->as<R2BeliefSpace::StateType>(0)->setY(95.0);
-        // }
-        // v = nn_->nearest(rmotion);
         v = abstractInfo_[as].nn->nearest(rmotion);
         Control *rctrl = stlsi_->allocControl();
         // controlSampler_->sampleNext(rctrl, v->control, v->state);

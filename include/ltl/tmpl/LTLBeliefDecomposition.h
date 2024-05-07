@@ -34,8 +34,8 @@
 
 /* Author: Qi Heng Ho */
 
-#ifndef OMPL_CONTROL_PLANNERS_BeliefDecomposition_
-#define OMPL_CONTROL_PLANNERS_BeliefDecomposition_
+#ifndef OMPL_CONTROL_PLANNERS_SYCLOP_BeliefDecomposition_
+#define OMPL_CONTROL_PLANNERS_SYCLOP_BeliefDecomposition_
 
 #include <cstdlib>
 #include <memory>
@@ -45,11 +45,9 @@
 #include "ompl/control/planners/syclop/Decomposition.h"
 #include "ompl/util/RandomNumbers.h"
 #include <iostream>
-#include "Spaces/R3BeliefSpace.h"
 #include "Spaces/R2BeliefSpace.h"
 #include <boost/math/special_functions/erf.hpp>
-#include "Scene/Scene.h"
-#include "System/System.h"
+// #include "../Scenarios/2d_unicycle_regions.hpp"
 
 namespace ompl
 {
@@ -65,7 +63,7 @@ namespace ompl
                 \f$(r_1,\ldots,r_k)\f$, where \f$ 0 \leq r_i < \texttt{len}\f$. */
             BeliefDecomposition(int dim, const base::RealVectorBounds &b);
 
-            BeliefDecomposition(int dim, const base::RealVectorBounds &b, const Scene scene, const double p_threshold = 0.95);
+            BeliefDecomposition(int dim, const base::RealVectorBounds &b, int discretization_level, const double p_threshold = 0.95);
 
             ~BeliefDecomposition() override = default;
 
@@ -82,8 +80,6 @@ namespace ompl
                 NumRegions = num;
             }
 
-            int coordToRegion(std::vector<double> coord) const;
-
             double getRegionVolume(int rid) override;
 
             void getNeighbors(int rid, std::vector<int> &neighbors) const override;
@@ -92,6 +88,10 @@ namespace ompl
 
             void sampleFromRegion(int rid, RNG &rng, std::vector<double> &coord) const override;
 
+            // int setNumRegions(int num)
+            // {
+            //     NumRegions = num;
+            // }
             bool HyperplaneCCValidityChecker(const Eigen::MatrixXf &A, const Eigen::MatrixXf &B, const double &x_pose, const double &y_pose, const double &z_pose, const Eigen::MatrixXf &PX) const;
             bool HyperplaneCCValidityCheckerAvoid(const Eigen::MatrixXf &A, const Eigen::MatrixXf &B, const double &x_pose, const double &y_pose, const double &z_pose, const Eigen::MatrixXf &PX) const;
 
@@ -101,14 +101,10 @@ namespace ompl
             int discretization_level_{1};
             double p_threshold_, erf_inv_result_, erf_inv_result_region_oneminusalpha_;
 
-            std::vector<std::vector<double>> bounds_;
-
             unsigned int n_regions_;
             std::vector<Eigen::Matrix<float, 6, 3> > A_list_;
             std::vector<Eigen::Matrix<float, 6, 1> > B_list_;
-            int dimensions_;
-
-            std::vector<std::vector<double>> proposition_regions_;
+            // Eigen::Matrix3f PX; 
         };
     }
 }
