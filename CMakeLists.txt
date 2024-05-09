@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(gbt)
+project(gbt VERSION 1.0.0)
 
 # SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -std=c++14 -march=native -funroll-all-loops -fpeel-loops -ftracer -ftree-vectorize -mavx2 -mfma -fomit-frame-pointer -fpermissive")
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -std=c++17")
@@ -85,4 +85,36 @@ target_link_libraries (main
     ${OMPL_LIBRARIES}
     ${Boost_LIBRARIES}
     yaml-cpp
+)
+
+install(TARGETS gbt_lib main
+    EXPORT gbt_libTargets
+    ARCHIVE DESTINATION lib
+    LIBRARY DESTINATION lib
+    RUNTIME DESTINATION bin
+)
+install(DIRECTORY include/ DESTINATION include)
+
+install(EXPORT gbt_libTargets
+    FILE gbt_libTargets.cmake
+    NAMESPACE gbt_lib::
+    DESTINATION lib/cmake/gbt_lib
+)
+
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(
+    gbt_libConfigVersion.cmake
+    VERSION ${PROJECT_VERSION}
+    COMPATIBILITY AnyNewerVersion
+)
+
+configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/Config.cmake.in
+    "${CMAKE_CURRENT_BINARY_DIR}/gbt_libConfig.cmake"
+    INSTALL_DESTINATION lib/cmake/gbt_lib
+)
+
+install(FILES
+    "${CMAKE_CURRENT_BINARY_DIR}/gbt_libConfig.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/gbt_libConfigVersion.cmake"
+    DESTINATION lib/cmake/gbt_lib
 )

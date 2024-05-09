@@ -14,8 +14,12 @@ class Scene
         std::vector<Eigen::Matrix<float, 6, 3> > A_list_;
         std::vector<Eigen::Matrix<float, 6, 1> > B_list_;
         std::vector<std::pair<double, double>> scene_bounds_;
-        std::vector<std::pair<std::array<float, 3>, std::array<float, 3>>> obstacles_limits_;
         unsigned int n_obstacles_ = 0;
+        std::vector<std::pair<std::array<float, 3>, std::array<float, 3>>> obstacles_limits_;
+
+        int n_regions_;
+        std::vector<Eigen::Matrix<float, 6, 3> > A_list_regions_;
+        std::vector<Eigen::Matrix<float, 6, 1> > B_list_regions_;
 
     private:
 
